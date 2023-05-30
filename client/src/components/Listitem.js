@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Listitem = () => {
+const ListItem = ({task}) => {
   return (
-    <div>
-      
+    <div className='list-item'>
+      <p>{task.titel}</p>
     </div>
   )
 }
 
-export default Listitem
+export default ListItem
