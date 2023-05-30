@@ -1,10 +1,20 @@
 import React from 'react'
+import TickIcon from './TickIcon'
+import ProgressBar from './ProgressBar'
 
-const ListItem = ({task}) => {
+const ListItem = ({ task }) => {
   return (
-    <div className='list-item'>
-      <p>{task.titel}</p>
-    </div>
+    <li className='list-item'>
+      <div className="info-container">
+        <TickIcon/>
+        <p className="task-title">{task.titel}</p>
+        <ProgressBar/>
+      </div>
+      <div className="button-container">
+        <button className='edit'>EDIT</button>
+        <button className='delete'>DELETE</button>
+      </div>
+    </li>
   )
 }
 
