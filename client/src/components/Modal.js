@@ -15,21 +15,21 @@ const Modal = ({ mode, setShowModal, task, getData }) => {
 
   const postData = async (e) => {
     e.preventDefault()
-    
     try {
       const response = await fetch(`http://localhost:8000/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+
       console.log(response);
+      
       if(response.status === 200){
         console.log("WORKED")
         setShowModal(false)
         getData()
-      }else{
-        console.log("hig")
       }
+
     } catch (error) {
       console.error(error);
     }
