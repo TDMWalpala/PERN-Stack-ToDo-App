@@ -1,26 +1,48 @@
 import React, { useState } from 'react';
 
-const Modal = ({mode , setShowModal}) => {
-  const editMode = mode === 'edit';
+const Modal = ({ mode, setShowModal, task, getData }) => {
+  const editMode = mode === 'edit' ? true : false;
 
-  const initialData = {
-    user_email: '',
-    title: '',
-    progress: '',
-    date: editMode ? '' : new Date()
+
+  const [data, setData] = useState({
+    user_email: editMode ? task.user_email : 'tharindu@gmail.com',
+    title: editMode ? task.title : '',
+    progress: editMode ? task.progress : 50,
+    date: editMode ? task.date : new Date(),
+  });
+
+  console.log(data)
+
+  const postData = async (e) => {
+    e.preventDefault()
+    
+    try {
+      const response = await fetch(`http://localhost:8000/todos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      console.log(response);
+      if(response.status === 200){
+        console.log("WORKED")
+        setShowModal(false)
+        getData()
+      }else{
+        console.log("hig")
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const [data, setData] = useState(initialData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log('changing!',e)
+    console.log('changing!', e);
 
     setData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
-
-   
   };
 
   return (
@@ -28,7 +50,7 @@ const Modal = ({mode , setShowModal}) => {
       <div className="modal">
         <div className="form-title-container">
           <h3>Let's {mode} your task</h3>
-          <button onClick={()=> setShowModal(false)}>X</button>
+          <button onClick={() => setShowModal(false)}>X</button>
         </div>
         <form>
           <input
@@ -51,7 +73,7 @@ const Modal = ({mode , setShowModal}) => {
             value={data.progress}
             onChange={handleChange}
           />
-          <input className={mode} type="submit" />
+          <input className={mode} type="submit" onClick={editMode ? null : postData} />
         </form>
       </div>
     </div>
